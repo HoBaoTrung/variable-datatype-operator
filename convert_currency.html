@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+</head>
+<style>
+    #currencyForm {
+        text-align: center;
+        display: flex;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+
+
+    input,
+    button,
+    select {
+        height: 30px;
+    }
+</style>
+
+<body>
+    <h2>Currency Converter</h2>
+    <form id="currencyForm" style="display: flex;">
+        <div>
+            <label for="amount">Amount:</label><br>
+            <input type="number" id="amount" required>
+        </div>
+        <div>
+            <label for="fromCurrency">From:</label><br>
+            <select id="fromCurrency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="VND">VND</option>
+            </select>
+        </div>
+        <div>
+            <label for="toCurrency">To:</label><br>
+            <select id="toCurrency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="VND">VND</option>
+            </select>
+        </div>
+        <button style="background-color: #8f82cf; color:aliceblue" type="button" onclick="convertCurrency()">Convert</button>
+    </form>
+
+    <h3>Converted Amount: <span id="result">0</span></h3>
+
+    <script>
+        // API URL từ ExchangeRate-API 
+        const API_URL = 'https://api.exchangerate-api.com/v4/latest/';
+
+        async function convertCurrency() {
+            const amount = parseFloat(document.getElementById("amount").value);
+            const fromCurrency = document.getElementById("fromCurrency").value;
+            const toCurrency = document.getElementById("toCurrency").value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            // Lấy tỉ giá từ API
+            const response = await fetch(`${API_URL}${fromCurrency}`);
+            const data = await response.json();
+
+            // Tính toán số tiền quy đổi
+            const rate = data.rates[toCurrency];
+            if (!rate) {
+                alert("Conversion rate not available.");
+                return;
+            }
+
+            const convertedAmount = amount * rate;
+            document.getElementById("result").textContent = convertedAmount + " " + toCurrency;
+
+        }
+
+    </script>
+</body>
+
+</html>
