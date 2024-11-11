@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Thực hành] Khai báo và sử dụng biến</title>
+</head>
+
+<body>
+    <script>
+        document.write('<p> Bài 1: <br/>')
+        let i = 10
+        let f = 20.5
+        let c = true
+        let s = 'Hà Nội'
+        document.write('i = ' + i)
+        document.write('<br/>')
+        document.write('f = ' + f)
+        document.write('<br/>')
+        document.write('c = ' + c)
+        document.write('<br/>')
+        document.write('s = ' + s + '</p>')
+
+
+        document.write('<p> Bài 2: <br/>')
+        let width = 20
+        let height = 10
+        let area = width * height
+        document.write('width = ' + width)
+        document.write('<br/>')
+        document.write('height = ' + height)
+        document.write('<br/>')
+        document.write('Diện tích = ' + area + '</p>')
+
+
+        document.write('<p> Bài 3: <br/>')
+        let a = prompt("Nhập biến a: ")
+        let b = prompt("Nhập biến b: ")
+        document.write('a = ' + a)
+        document.write('<br/>')
+        document.write('b = ' + b)
+        document.write('<br/>')
+        if(a % b == 0) alert("a chia hết cho b")
+        else alert("a không chia hết cho b")
+        document.write('</p>')
+    </script>
+</body>
+
+</html>
