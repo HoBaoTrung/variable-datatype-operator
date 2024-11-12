@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính điểm trung bình và tổng điểm</title>
+</head>
+<style>
+    div {
+        margin: 10px 0;
+    }
+</style>
+
+<body>
+    <h2>Nhập điểm các môn học</h2>
+    <form id="scoreForm">
+        <div>
+            <label for="physics">Vật lý:</label><br>
+            <input type="number" id="physics" required>
+        </div>
+        <div>
+            <label for="chemistry">Hóa học:</label><br>
+            <input type="number" id="chemistry" required>
+        </div>
+        <div>
+            <label for="biology">Sinh học:</label><br>
+            <input type="number" id="biology" required>
+        </div>
+        <button type="button" onclick="calculateScores()">Tính toán</button>
+    </form>
+
+    <h3>Kết quả:</h3>
+    <p id="totalScore">Tổng điểm: </p>
+    <p id="averageScore">Điểm trung bình: </p>
+
+    <script>
+        function warning(subject) {
+            alert("Nhập sai điểm " + subject)
+            document.getElementById(subject).value = "";
+        }
+        function calculateScores() {
+            // Lấy giá trị từ các ô nhập
+            const physics = parseFloat(document.getElementById("physics").value);
+            const chemistry = parseFloat(document.getElementById("chemistry").value);
+            const biology = parseFloat(document.getElementById("biology").value);
+
+            //Kiểm tra giá trị đầu vào
+            if (physics < 0 || physics > 10) warning("physics")
+            else if (chemistry < 0 || chemistry > 10)warning("chemistry") 
+            else if (biology < 0 || biology > 10)warning("biology") 
+            else {
+                // Tính tổng và điểm trung bình
+                const total = physics + chemistry + biology;
+                const average = total / 3;
+
+                // Hiển thị kết quả
+                document.getElementById("totalScore").innerText = "Tổng điểm: " + total.toFixed(2);
+                document.getElementById("averageScore").innerText = "Điểm trung bình: " + average.toFixed(2);
+            }
+        }
+    </script>
+</body>
+
+</html>
