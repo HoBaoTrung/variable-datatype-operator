@@ -81,7 +81,7 @@
         <input type="text" id="display" class="display" value="0" readonly>
         <div class="buttons">
             <button class="button" onclick="clearDisplay()">AC</button>
-            <button class="button" onclick="appendElement('%')">%</button>
+            <button class="button" onclick="appendElement('%',true)">%</button>
             <button class="button" onclick="calculateFactorial()">x!</button>
             <button class="button" onclick="appendElement('(')">(</button>
             <button class="button" onclick="appendElement(')')">)</button>
@@ -90,25 +90,25 @@
             <button class="button" onclick="appendElement('cos(')">cos</button>
             <button class="button" onclick="appendElement('tan(')">tan</button>
             <button class="button" onclick="appendElement('log(')">log</button>
-            <button class="button" onclick="appendElement('/')">÷</button>
+            <button class="button" onclick="appendElement('/',true)">÷</button>
 
             <button class="button" onclick="appendElement('pi')">π</button>
             <button class="button" onclick="appendElement('7')">7</button>
             <button class="button" onclick="appendElement('8')">8</button>
             <button class="button" onclick="appendElement('9')">9</button>
-            <button class="button" onclick="appendElement('*')">×</button>
+            <button class="button" onclick="appendElement('*',true)">×</button>
 
             <button class="button" onclick="appendElement('e')">e</button>
             <button class="button" onclick="appendElement('4')">4</button>
             <button class="button" onclick="appendElement('5')">5</button>
             <button class="button" onclick="appendElement('6')">6</button>
-            <button class="button" onclick="appendElement('-')">−</button>
+            <button class="button" onclick="appendElement('-',true)">−</button>
 
             <button class="button" onclick="appendElement('^')">xʸ</button>
             <button class="button" onclick="appendElement('1')">1</button>
             <button class="button" onclick="appendElement('2')">2</button>
             <button class="button" onclick="appendElement('3')">3</button>
-            <button class="button" onclick="appendElement('+')">+</button>
+            <button class="button" onclick="appendElement('+',true)">+</button>
 
             <button class="button" onclick="appendElement('sqrt(')">√</button>
             <button class="button" onclick="appendElement('0')">0</button>
@@ -119,14 +119,22 @@
 
     <script>
         var isNewExpression = true
-        
-        function appendElement(element) {
-            const display = document.getElementById('display');
-            if (display.value === '0' || isNewExpression == true) display.value = element;
-            else display.value += element;
-            isNewExpression = false
-        }
 
+        function appendElement(element, isOperation = false) {
+            const display = document.getElementById('display');
+            const lastChar = display.value.charAt(display.value.length - 1);
+
+            if (isOperation) {
+                // Nếu là toán tử, kiểm tra ký tự cuối có phải toán tử không
+                if (isNaN(lastChar)) display.value = display.value.slice(0, -1);
+                display.value = (display.value === '0' || isNewExpression) ? "0" + element : display.value + element;
+            } else {
+                // Nếu là ký tự số
+                display.value = (display.value === '0' || isNewExpression) ? element : display.value + element;
+            }
+
+            isNewExpression = false;
+        }
 
         function clearDisplay() {
             document.getElementById('display').value = '0';
@@ -136,7 +144,6 @@
             isNewExpression = true;
             const display = document.getElementById('display');
             try {
-                // Replace symbols with JavaScript functions
                 let expression = display.value.replace('pi', Math.PI)
                     .replace('e', Math.E)
                     .replace('^', '**')
